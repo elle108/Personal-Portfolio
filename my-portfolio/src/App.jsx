@@ -1,22 +1,28 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Home from './components/Home.jsx';
+import Projects from './components/Projects.jsx';
+import AboutMe from './components/AboutMe.jsx';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-      <div>
-      <h1>Elle Miller</h1>
-        <p>
-          Student at Grand Valley State University pursing a B.S. in Computer Science with a 
-          minor in Mathematics and an M.S. in Data Science and Analytics. Board member of the 
-          GVSU Society of Women Engineers and an Undergraduate Student Mentor for the 
-          College of Computing. 
-        </p>
-      </div>
-  )
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Home</Link> |{" "}
+        <Link to="/about">AboutMe</Link> |{" "}
+        <Link to="/projects">Projects</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutMe />} />
+        <Route path="/projects" element={<Projects />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App
