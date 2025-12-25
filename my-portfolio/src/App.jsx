@@ -4,22 +4,19 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home.jsx';
 import Projects from './components/Projects.jsx';
 import AboutMe from './components/AboutMe.jsx';
+import Navbar from './components/Menu.jsx';
 
 function App() {
   return (
-    <BrowserRouter>
-      <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/about">AboutMe</Link> |{" "}
-        <Link to="/projects">Projects</Link>
-      </nav>
+    <>
+      <Navbar />
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutMe />} />
         <Route path="/projects" element={<Projects />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 
