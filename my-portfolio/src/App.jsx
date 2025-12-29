@@ -6,6 +6,8 @@ import Projects from './components/Projects.jsx';
 import AboutMe from './components/AboutMe.jsx';
 import Navbar from './components/Menu.jsx';
 import Contact from './components/Contact.jsx';
+import Login from './components/Login.jsx';
+import Admin from './components/Admin.jsx';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/about" element={<AboutMe />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </>
   );

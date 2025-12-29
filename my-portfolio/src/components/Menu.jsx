@@ -36,6 +36,12 @@ function Navbar() {
           </NavigationMenuLink>
         </NavigationMenuItem>
 
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link to="/login">Login</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
       </NavigationMenuList>
     </NavigationMenu>
   )
