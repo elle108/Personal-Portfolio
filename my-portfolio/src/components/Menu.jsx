@@ -7,6 +7,7 @@ import {
 
 import { Link } from "react-router-dom"
 
+// Navbar component with links to all the main pages
 function Navbar() {
   return (
     <NavigationMenu className="mx-auto flex flex-row justify-end max-w-5xl" style={{ color: "#A29488" }}>

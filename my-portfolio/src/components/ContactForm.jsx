@@ -3,18 +3,22 @@ import { useState } from "react"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase"
 
+// Contact form component for sending messages to Firestore
 function ContactFormCard() {
+  // State for form inputs and loading status
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
 
+  // Handle form submission and save to Firestore
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
 
     try{
-        await addDoc(collection(db, "contacts"), {
+      // Add submission to Firestore
+      await addDoc(collection(db, "contacts"), {
         name,
         email,
         message,
@@ -22,6 +26,7 @@ function ContactFormCard() {
         })
 
         alert("Your message has been submitted")
+        // Clear form after submission
         setName("")
         setEmail("")
         setMessage("")
@@ -32,6 +37,7 @@ function ContactFormCard() {
     setLoading(false)
   }
 
+  // Contact form
   return (
     <Card>
       <CardHeader>

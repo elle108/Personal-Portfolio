@@ -13,12 +13,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+// Admin dashboard component to view contact submissions
 function Admin() {
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Check authentication and fetch contacts
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
@@ -33,6 +35,7 @@ function Admin() {
     return () => unsubscribe();
   }, [navigate]);
 
+  // Fetch contact submissions from Firestore
   const fetchContacts = async () => {
     try {
       const q = query(collection(db, 'contacts'), orderBy('createdAt', 'desc'));
@@ -47,6 +50,7 @@ function Admin() {
     }
   };
 
+  // Handle logout and redirect to login page
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -56,12 +60,14 @@ function Admin() {
     }
   };
 
+  // Format Firestore timestamp
   const formatDate = (timestamp) => {
     if (!timestamp) return 'N/A';
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   };
 
+  // Loading state
   if (loading) {
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -70,6 +76,7 @@ function Admin() {
   );
 }
 
+// Display admin dashboard
 return (
   <div className="min-h-screen p-6 max-w-5xl mx-auto">
     <div className="flex justify-between items-center mb-6">

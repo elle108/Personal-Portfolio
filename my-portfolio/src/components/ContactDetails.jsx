@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+// Component to display contact details
 function ContactDetailsCard() {
   return (
     <Card>

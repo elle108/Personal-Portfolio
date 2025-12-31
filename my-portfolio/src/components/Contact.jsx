@@ -2,6 +2,7 @@ import React from "react"
 import ContactDetailsCard from "./ContactDetails.jsx"
 import ContactFormCard from "./ContactForm"
 
+// Contact page component to display contact details and form
 function Contact() {
 
   return (

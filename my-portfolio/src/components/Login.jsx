@@ -6,17 +6,20 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
+// Login page component with Firebase authentication
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+  // State for inputs and UI feedback
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setError('');
-        setLoading(true);
+  // Handle login form submission
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
         await signInWithEmailAndPassword(auth, email, password);
@@ -29,7 +32,8 @@ function Login() {
     }
   };
 
-    return (
+  // Component for login form
+  return (
   <div className="min-h-screen flex items-center justify-center">
     <form onSubmit={handleLogin} className="w-80 space-y-4">
       <h2 className="text-xl font-semibold text-center">Admin Login</h2>

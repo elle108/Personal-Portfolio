@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
+// Component for displaying project cards
 function ProjectCard({ title, description, tech, link }) {
   return (
     <Card>
@@ -25,6 +26,7 @@ function ProjectCard({ title, description, tech, link }) {
   )
 }
 
+// Projects component displaying a list of project cards
 function Projects() {
   return (
     <div className="min-h-screen px-6 py-16 flex justify-center">

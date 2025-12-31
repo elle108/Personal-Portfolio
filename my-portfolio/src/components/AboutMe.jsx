@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+// About Me component displaying education, experience, skills, and hobbies
 function About() {
   return (
     <div className="min-h-screen px-6 py-16 flex justify-center">
