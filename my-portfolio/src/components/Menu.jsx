@@ -9,36 +9,36 @@ import { Link } from "react-router-dom"
 
 function Navbar() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="mx-auto flex flex-row justify-end max-w-5xl" style={{ color: "#A29488" }}>
       <NavigationMenuList>
         
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link to="/">Home</Link>
+            <Link to="/" >Home </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link to="/about">About Me</Link>
+            <Link to="/about" >About </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link to="/projects">Projects</Link>
+            <Link to="/projects" >Projects </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link to="/contact">Contact</Link>
+            <Link to="/contact" >Contact </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
-            <Link to="/login">Login</Link>
+            <Link to="/login" >Login </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 

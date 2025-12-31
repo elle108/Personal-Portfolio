@@ -4,7 +4,6 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -78,7 +77,7 @@ return (
     </div>
 
     {contacts.length === 0 ? (
-      <p className="text-gray-500">No contact submissions yet.</p>
+      <p>No contact submissions yet.</p>
     ) : (
       <Table>
         <TableHeader>

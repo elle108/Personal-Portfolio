@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <Navbar />
-
+      <main className="pt-24 px-6">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutMe />} />
@@ -22,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
+      </main>
     </>
   );
 }
