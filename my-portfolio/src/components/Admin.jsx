@@ -35,7 +35,7 @@ function Admin() {
 
   const fetchContacts = async () => {
     try {
-      const q = query(collection(db, 'contacts'), orderBy('timestamp', 'desc'));
+      const q = query(collection(db, 'contacts'), orderBy('createdAt', 'desc'));
       const querySnapshot = await getDocs(q);
       const contactsData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
@@ -97,7 +97,7 @@ return (
               <TableCell className="max-w-md truncate">
                 {contact.message}
               </TableCell>
-              <TableCell>{formatDate(contact.timestamp)}</TableCell>
+              <TableCell>{formatDate(contact.createdAt)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

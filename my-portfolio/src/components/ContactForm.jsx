@@ -18,10 +18,10 @@ function ContactFormCard() {
         name,
         email,
         message,
-        createdAt: new Date(),
+        createdAt: serverTimestamp(),
         })
 
-        alert("Your message has been submitted 💙")
+        alert("Your message has been submitted")
         setName("")
         setEmail("")
         setMessage("")
