@@ -8,6 +8,7 @@ import Navbar from './components/Menu.jsx';
 import Contact from './components/Contact.jsx';
 import Login from './components/Login.jsx';
 import Admin from './components/Admin.jsx';
+import { Analytics } from "@vercel/analytics/react"
 
 // Main application component with routing
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
+      <Analytics />
       </main>
     </>
   );
