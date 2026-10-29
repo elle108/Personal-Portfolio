@@ -3,15 +3,7 @@ import { auth, db } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { LogOut } from 'lucide-react';
 
 // Admin dashboard component to view contact submissions
 function Admin() {
@@ -22,33 +14,33 @@ function Admin() {
 
   // Check authentication and fetch contacts
   useEffect(() => {
+    // Fetch contact submissions from Firestore
+    const fetchContacts = async () => {
+      try {
+        const q = query(collection(db, 'contacts'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const contactsData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setContacts(contactsData);
+      } catch (error) {
+        console.error('Error fetching contacts:', error);
+      }
+    };
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        if (currentUser) {
-            setUser(currentUser);
-            fetchContacts();
-        } else {
+      if (currentUser) {
+        setUser(currentUser);
+        fetchContacts();
+      } else {
         navigate('/login');
-        }
-        setLoading(false);
+      }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, [navigate]);
-
-  // Fetch contact submissions from Firestore
-  const fetchContacts = async () => {
-    try {
-      const q = query(collection(db, 'contacts'), orderBy('createdAt', 'desc'));
-      const querySnapshot = await getDocs(q);
-      const contactsData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setContacts(contactsData);
-    } catch (error) {
-      console.error('Error fetching contacts:', error);
-    }
-  };
 
   // Handle logout and redirect to login page
   const handleLogout = async () => {
@@ -69,50 +61,54 @@ function Admin() {
 
   // Loading state
   if (loading) {
+    return (
+      <div className="flex min-h-[80vh] items-center justify-center pt-24 text-ink-soft">
+        Loading...
+      </div>
+    );
+  }
+
+  // Display admin dashboard
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      Loading...
+    <div className="mx-auto min-h-[80vh] max-w-4xl px-4 pb-20 pt-32 sm:px-6">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="font-display text-4xl text-ink">Inbox</h1>
+          <p className="text-ink-soft">
+            {contacts.length} message{contacts.length === 1 ? '' : 's'} from the contact form
+            {user?.email && <> · signed in as {user.email}</>}
+          </p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="inline-flex items-center gap-2 rounded-full border border-pink bg-paper px-5 py-2 font-semibold text-rose hover:bg-blush"
+        >
+          <LogOut className="h-4 w-4" /> Log out
+        </button>
+      </div>
+
+      {contacts.length === 0 ? (
+        <p className="rounded-3xl bg-paper p-8 text-center text-ink-soft shadow-card">No contact submissions yet.</p>
+      ) : (
+        <ul className="space-y-4">
+          {contacts.map((contact) => (
+            <li key={contact.id} className="rounded-3xl border border-line bg-paper p-6 shadow-card">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <p className="font-semibold text-ink">
+                  {contact.name}{' '}
+                  <a href={`mailto:${contact.email}`} className="font-normal text-rose hover:underline">
+                    {contact.email}
+                  </a>
+                </p>
+                <p className="text-sm text-ink-soft">{formatDate(contact.createdAt)}</p>
+              </div>
+              <p className="mt-3 whitespace-pre-wrap leading-relaxed text-ink-soft">{contact.message}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
-}
-
-// Display admin dashboard
-return (
-  <div className="min-h-screen p-6 max-w-5xl mx-auto">
-    <div className="flex justify-between items-center mb-6">
-      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-    </div>
-
-    {contacts.length === 0 ? (
-      <p>No contact submissions yet.</p>
-    ) : (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Message</TableHead>
-            <TableHead>Date</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {contacts.map((contact) => (
-            <TableRow key={contact.id}>
-              <TableCell>{contact.name}</TableCell>
-              <TableCell>{contact.email}</TableCell>
-              <TableCell className="max-w-md truncate">
-                {contact.message}
-              </TableCell>
-              <TableCell>{formatDate(contact.createdAt)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    )}
-    <Button onClick={handleLogout}>Logout</Button>
-  </div>
-);
 }
 
 export default Admin;

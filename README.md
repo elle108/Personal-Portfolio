@@ -6,27 +6,66 @@ The site is designed to be clean, calm, and approachable, with a soft pastel the
 
 ## Features
 
-- Multi page React application (Home, About, Projects, Contact, Admin)
-- Design using Tailwind CSS
-- Firebase Firestore for contact form submissions
-- Firebase Authentication for admin only access
-- Admin dashboard to view contact submissions
-- ShadCN UI components for consistent styling
-- Deployed with Vercel
+- One-page portfolio (Hero, About, Experience, Projects, Skills & Leadership, Contact) plus a **Personal** page
+- Pastel design system built with Tailwind CSS v4 theme tokens (Fraunces + Quicksand fonts)
+- Contact form that emails me through [Web3Forms](https://web3forms.com) and archives a copy in Firestore
+- Optional **Ask Elle** AI chat widget that answers questions about my experience, projects, and skills using the Claude API
+- Firebase Authentication for an admin-only inbox at `/admin` (linked quietly from the footer)
+- Responsive layout with a mobile menu, scroll reveal animations, and reduced-motion support
+- Deployed with Vercel (with Vercel Analytics)
 
 ## Tech Stack
 
 - **Frontend:** React, Vite
-- **Styling:** Tailwind CSS, ShadCN UI
-- **Backend:** Firebase (Firestore, Authentication)
+- **Styling:** Tailwind CSS, lucide-react icons
+- **Backend:** Firebase (Firestore, Authentication), Web3Forms for email, a Vercel serverless function calling the Claude API
 - **Routing:** React Router
 - **Deployment:** Vercel
 
-## Admin Access
+## Updating Content
 
-- Contact form submissions are stored securely in Firestore
-- Only authenticated users can view submissions
-- Firestore rules prevent updates or deletions of contact data
+Everything on the site (bio, experience, projects, skills, hobbies) lives in
+`my-portfolio/src/data/site.js`. Edit that file and the pages update automatically.
+
+**Photos for the Personal page:** drop images into
+- `my-portfolio/src/assets/personal/pup/` for dog photos
+- `my-portfolio/src/assets/personal/life/` for everything else
+
+They show up automatically. Add captions by filename in the `personal.captions` object in `site.js`.
+
+**Resume button:** put a PDF at `my-portfolio/public/resume.pdf` and set `profile.resumeUrl` to `"/resume.pdf"`.
+
+## Contact Form Setup
+
+1. Get a free access key at [web3forms.com](https://web3forms.com) using the email you want messages sent to.
+2. Add it to `my-portfolio/.env` as `VITE_WEB3FORMS_KEY=...` (see `.env.example`).
+3. Add the same variable in Vercel under Project Settings → Environment Variables and redeploy.
+
+Messages are also saved to the Firestore `contacts` collection so they show up in the admin inbox.
+
+## Ask Elle Chat Setup (optional)
+
+The floating "Ask Elle" chat sends visitors' questions to `my-portfolio/api/ask.js`, a Vercel
+serverless function that calls the Claude API. Its answers are grounded in `src/data/site.js`, so
+updating that file updates what the chat knows. The API key lives only on the server and is never
+bundled into the site.
+
+1. Create an API key at [console.anthropic.com](https://console.anthropic.com).
+2. In `my-portfolio/.env` add:
+   ```
+   ANTHROPIC_API_KEY=sk-ant-...
+   VITE_ASK_ELLE=true
+   ```
+   Keep `ANTHROPIC_API_KEY` **without** a `VITE_` prefix; anything prefixed `VITE_` is shipped to the browser.
+3. In Vercel, add both variables under Project Settings → Environment Variables and redeploy.
+   Leave `VITE_ASK_ELLE` unset (or `false`) to hide the widget.
+
+Optional: set `ANTHROPIC_MODEL` to use a different Claude model (defaults to `claude-opus-5-5`).
+
+Built-in guards: questions are capped at 500 characters, only the last 8 messages are sent, each
+IP gets about 10 questions per minute, and the system prompt keeps answers on topic and has the
+assistant say so when something isn't on the site. It's worth setting a monthly spend limit in the
+Anthropic Console too.
 
 ## Running Locally
 
@@ -37,12 +76,21 @@ npm run dev
 The application will be available at
 http://localhost:5174
 
+`npm run dev` only runs the Vite frontend, so the Ask Elle chat will show an error there.
+To run the site **and** the `/api` serverless function together, use the Vercel CLI from `my-portfolio/`:
+
+```bash
+npm install -g vercel
+vercel link   # one time: connect the folder to the Vercel project
+vercel dev
+```
+
+`vercel dev` reads `my-portfolio/.env` and serves everything at http://localhost:3000.
+
 ## Future Development
 - Continue to update information as education progresses
-- Add animations and UI transitions
-- Improve admin dashboard
-- Improve UI for a cleaner and polished webpage
-- Add resume download
+- Add photos to the Personal page
+- Keep experimenting with the "Ask Elle" chat (streaming replies, a persistent rate limit)
 
 ## References and Resources
 
@@ -85,6 +133,11 @@ http://localhost:5174
 - [React Tailwind Portfolio Example](https://github.com/realstoman/react-tailwindcss-portfolio/tree/main)
 - [Responsive React/Tailwind Example](https://github.com/kunal1173/Responsive-Website-with-ReactJS-and-TailwindCSS/tree/main)
 - [My Personal Portfolio Repo](https://github.com/elle108/Personal-Portfolio/tree/main)
+
+### Claude API
+- [Claude API Docs](https://platform.claude.com/docs)
+- [Anthropic TypeScript SDK](https://github.com/anthropics/anthropic-sdk-typescript)
+- [Vercel Functions](https://vercel.com/docs/functions)
 
 ### Tools & Platforms
 - [Vite Official Docs](https://vite.dev)

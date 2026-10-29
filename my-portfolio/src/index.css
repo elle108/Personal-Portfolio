@@ -1,14 +1,71 @@
 @import "tailwindcss";
 
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+/* Pastel design tokens, usable as Tailwind utilities (bg-blush, text-ink, etc.) */
+@theme {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+
+  --color-cream: #fffafc;
+  --color-paper: #ffffff;
+  --color-ink: #4a3f55;
+  --color-ink-soft: #776b84;
+  --color-line: #f0e4ee;
+
+  --color-blush: #fde4ef;
+  --color-pink: #f6b3cf;
+  --color-rose: #c2558a;
+  --color-lilac: #ece6ff;
+  --color-lavender: #b9a6f2;
+  --color-violet: #7c62d6;
+  --color-sky: #e1f0ff;
+  --color-baby: #a9cdf2;
+  --color-mint: #e0f5ec;
+  --color-butter: #fff4d6;
+
+  --shadow-soft: 0 10px 30px -12px rgb(194 85 138 / 0.25);
+  --shadow-card: 0 1px 2px rgb(74 63 85 / 0.04), 0 12px 32px -16px rgb(124 98 214 / 0.25);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
 }
 
-:root {
-    font-family: "Quicksand";
-    background-color: #ebe7f3;
-    color: #A29488;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-pink);
+  color: var(--color-ink);
+}
+
+/* Fade-up reveal driven by useReveal() */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation: none !important; }
 }

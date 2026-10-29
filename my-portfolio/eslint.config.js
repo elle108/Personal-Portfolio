@@ -26,4 +26,14 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  {
+    // Vercel serverless functions run on Node
+    files: ['api/**/*.js', '*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
+  {
+    // shadcn/ui components export their variant helpers alongside components
+    files: ['src/components/ui/**/*.jsx'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
 ])
